@@ -13,3 +13,8 @@
 h1 {
   font-weight: bold;
 }
+
+ul {
+  margin: auto;
+  list-style: inside;
+}
