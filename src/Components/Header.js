@@ -3,6 +3,7 @@ import '../App.css'
 
 const Header = () => {
     return (
+      <>
         <ul className="nav nav-tabs mb-3 nav-color" id="pills-tab" role="tablist" style={{ padding: '2rem 0 0 2rem', fontSize: '1.5rem'}}>
           <li className="nav-item">
             <a className="nav-link active" id="instruction-tab" data-toggle="pill" href="#instruction" role="tab" aria-controls="instruction" aria-selected="true">Instrukcja</a>
@@ -13,7 +14,11 @@ const Header = () => {
           <li className="nav-item">
             <a className="nav-link" id="emotions-tab" data-toggle="pill" href="#emotions" role="tab" aria-controls="emotions" aria-selected="false">Emocje</a>
           </li>
+          <li className="d-inline-flex p-2 ml-auto">
+            <button type="button" className="btn btn-danger">Wyloguj</button>
+          </li>
         </ul>
+      </>
     )
 }
 
