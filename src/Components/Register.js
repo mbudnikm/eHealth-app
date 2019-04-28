@@ -7,13 +7,15 @@ class Register extends Component {
         this.state = {
           login: "",
           password: "",
-          repeatedPassword: ""
+          repeatedPassword: "",
+          onChange: false
         };
     }
 
     handleChange = event => {
         this.setState({
-          [event.target.id]: event.target.value
+          [event.target.id]: event.target.value,
+          onChange: true
         });
     }
 
@@ -27,7 +29,7 @@ class Register extends Component {
                 <div className="col-xs-12 col-s-12 col-md-8 col-l-6 col-xl-6 mx-auto">
                     <h2 className="p-4">Rejestracja</h2>
                     <form onSubmit={this.handleSubmit}>
-                        <div className="form-group mb-4">
+                        <div className="form-group mb-2">
                             <label htmlFor="login" className="float-left">Nazwa użytkownika</label>
                             <input 
                                 type="text" 
@@ -35,8 +37,13 @@ class Register extends Component {
                                 id="login" 
                                 onChange={this.handleChange}
                                 placeholder="Wpisz nazwę użytkownika..." />
+                            { this.state.login.replace(/\s+/g, '').length < 2 && 
+                                <span className="mt-2 mx-auto" style={{color: "red"}}>
+                                    Nazwa użytkownika musi składać się z co najmniej 2 znaków
+                                </span>
+                            }
                         </div>
-                        <div className="form-group mb-4">
+                        <div className="form-group mb-2">
                             <label htmlFor="password" className="float-left">Hasło</label>
                             <input 
                                 type="password" 
