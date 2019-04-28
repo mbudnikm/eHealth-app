@@ -7,7 +7,7 @@ import Register from './Components/Register';
 
 class App extends Component {
   state = {
-    isLogged: true
+    isLogged: false
   }
 
   isLoggedHandler = () => {
