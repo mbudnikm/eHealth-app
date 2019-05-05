@@ -23,7 +23,7 @@ class App extends Component {
       <div className="App">
         { 
         (!this.state.isLogged && this.state.isRegister) ? <Register /> : 
-        (!this.state.isLogged && !this.state.isRegister ? <Login isRegisterHandler={this.isRegisterHandler} /> :
+        (!this.state.isLogged && !this.state.isRegister ? <Login /> :
           [<Header />, 
             <Content /> ]
         )

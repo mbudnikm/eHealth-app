@@ -24,7 +24,7 @@ class Login extends Component {
     render() {
         return (
                 <div className="container">
-                    <div className="d-flex justify-content-end p-4" onClick={this.props.isRegisterHandler}>
+                    <div className="d-flex justify-content-end p-4">
                         <a href="/register">Nie masz jeszcze konta? Zarejestruj się</a>
                     </div>
                     <div className="container h-100">
