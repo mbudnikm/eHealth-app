@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Register from "./Register"
   
 
 class Login extends Component {
@@ -25,7 +24,7 @@ class Login extends Component {
     render() {
         return (
                 <div className="container">
-                    <div className="d-flex justify-content-end p-4">
+                    <div className="d-flex justify-content-end p-4" onClick={this.props.isRegisterHandler}>
                         <a href="/register">Nie masz jeszcze konta? Zarejestruj się</a>
                     </div>
                     <div className="container h-100">

@@ -7,7 +7,8 @@ import Register from './Components/Register';
 
 class App extends Component {
   state = {
-    isLogged: false
+    isLogged: false,
+    isRegister: false
   }
 
   isLoggedHandler = () => {
@@ -16,13 +17,16 @@ class App extends Component {
     })
   }
 
+
   render() {
     return (
       <div className="App">
-        {/* [<Header />, 
-        <Content /> ]*/}
-        {/* <Login /> */ }
-        { !this.state.isLogged ? <Register /> : <Login />
+        { 
+        (!this.state.isLogged && this.state.isRegister) ? <Register /> : 
+        (!this.state.isLogged && !this.state.isRegister ? <Login isRegisterHandler={this.isRegisterHandler} /> :
+          [<Header />, 
+            <Content /> ]
+        )
         }
       </div>
     );
