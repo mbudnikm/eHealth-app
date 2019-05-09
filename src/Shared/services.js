@@ -1,13 +1,18 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:8090//api/v1/users";
+const baseURL = "http://176.107.133.21:8090/api/v1/users";
 
 export const registerUser = (payload) => {
     axios({
         method: 'post',
         url: baseURL,
-        data: payload
-    }).then(response => console.log(response));
+        body: payload,
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": '*'
+        }
+    }).then(response => console.log(response))
+    .catch(error => console.log(error));
 }
 
 export const getUserDetails = (id) => {

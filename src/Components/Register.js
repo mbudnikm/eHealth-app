@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-  
+import { registerUser } from "../shared/services"
+
 class Register extends Component {
     constructor(props) {
         super(props);
@@ -8,7 +9,9 @@ class Register extends Component {
           login: "",
           password: "",
           repeatedPassword: "",
-          onChange: false
+          onChange: false,
+          passMessage: false,
+          loginMessage: false
         };
     }
 
@@ -21,6 +24,23 @@ class Register extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
+
+        if(this.state.password !== this.state.repeatedPassword){
+            this.setState({ passMessage: true, loginMessage: true })
+            return
+        } else if (this.state.login.replace(/\s+/g, '').length < 2) {
+            this.setState({ loginMessage: true, passMessage: false })
+            return
+        } else if (this.state.password !== this.state.repeatedPassword) {
+            this.setState({ passMessage: true, loginMessage: false })
+            return
+        }
+
+        const payload = {
+            "name": this.state.login,
+            "password": this.state.password
+        }
+        registerUser(payload)
     }
 
     render() {
@@ -37,7 +57,7 @@ class Register extends Component {
                                 id="login" 
                                 onChange={this.handleChange}
                                 placeholder="Wpisz nazwę użytkownika..." />
-                            { this.state.login.replace(/\s+/g, '').length < 2 && 
+                            { this.state.loginMessage && 
                                 <span className="mt-2 mx-auto" style={{color: "red"}}>
                                     Nazwa użytkownika musi składać się z co najmniej 2 znaków
                                 </span>
@@ -60,6 +80,11 @@ class Register extends Component {
                                 id="repeatedPassword" 
                                 onChange={this.handleChange}
                                 placeholder="Wpisz hasło użytkownika..." />
+                                { this.state.passMessage && 
+                                    <span className="mt-2 mx-auto" style={{color: "red"}}>
+                                        Hasło i powtórzone hasło muszą być identyczne
+                                    </span>
+                                }
                         </div>
                         <button type="submit" className="btn btn-success btn-lg w-100">Załóż konto</button>
                     </form>
