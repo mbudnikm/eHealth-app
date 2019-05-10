@@ -1,24 +1,27 @@
 import React, { Component } from 'react';
 import './App.css';
-import Header from "./Components/Header";
-import Content from "./Components/Content";
+import Main from "./Components/Main";
 import Login from "./Components/Login"
 import Register from './Components/Register';
-import { throws } from 'assert';
 
 class App extends Component {
   state = {
     isLogged: false,
-    isRegister: true,
-    registerMssg: false
+    isRegister: false,
+    registerMssg: false,
+    userId: null
   }
 
-  isLoggedHandler = () => {
-    this.setState({ isLogged: !this.state.isLogged })
+  isRegisterHandler = (info) => {
+    this.setState({ isRegister: info, registerMssg: !info })
   }
 
-  isRegisterHandler = () => {
-    this.setState({ isRegister: false, registerMssg: true })
+  userIdHandler = (id) => {
+    this.setState({ userId: id, isLogged: true })
+  }
+
+  logoutHandler = () => {
+    this.setState({ userId: null, isLogged: false })
   }
 
 
@@ -29,9 +32,13 @@ class App extends Component {
         (!this.state.isLogged && this.state.isRegister) ? 
           <Register isRegisterHandler={this.isRegisterHandler}/> : 
         (!this.state.isLogged && !this.state.isRegister ? 
-          <Login registerMssg={this.state.registerMssg}/> :
-          [<Header />, 
-            <Content /> ]
+          <Login 
+            registerMssg={this.state.registerMssg}
+            isRegisterHandler={this.isRegisterHandler}
+            userIdHandler={this.userIdHandler} /> :
+          <Main 
+            userId={this.state.userId}
+            logoutHandler={this.logoutHandler}/>
         )
         }
       </div>

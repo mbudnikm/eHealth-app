@@ -22,6 +22,19 @@ export const registerUser = async (payload) => {
     return response
 }
 
+export const loginUser = async (payload) => {
+    const response = await axios({
+        method: "get",
+        url: `${baseURL}/${payload.name}/byName`,
+        data: payload,
+        auth: {username: payload.name, password: payload.password},
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+    return response
+}
+
 export const getUserDetails = (id) => {
     axios({
         method: 'get',

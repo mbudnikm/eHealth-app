@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-  
+import { handleResponse, loginUser } from "../Shared/services"
 
 class Login extends Component {
     constructor(props) {
@@ -17,15 +17,30 @@ class Login extends Component {
         });
     }
 
-    handleSubmit = event => {
+    changeisRegisterState = (e) => {
+        e.stopPropagation();
+        this.props.isRegisterHandler(true)
+    }
+
+    handleSubmit = async (event) => {
         event.preventDefault();
+
+        const payload = {
+            "name": this.state.user,
+            "password": this.state.password
+        }
+        const response = await handleResponse(async () => await loginUser(payload))
+        response.status === 200 && this.props.userIdHandler(response.data.id)
+        console.log(response)
     }
 
     render() {
         return (
                 <div className="container">
                     <div className="d-flex justify-content-end p-4">
-                        <a href="/register">Nie masz jeszcze konta? Zarejestruj się</a>
+                        <span onClick={this.changeisRegisterState} data-id="1">
+                            <a href="/register">Nie masz jeszcze konta? Zarejestruj się</a>
+                        </span>
                     </div>
                     <div className="container h-100">
                         <div className="col-xs-12 col-s-12 col-md-8 col-l-6 col-xl-6 mx-auto">

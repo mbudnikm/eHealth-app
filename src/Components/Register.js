@@ -54,7 +54,7 @@ class Register extends Component {
             "password": this.state.password
         }
         const response = await handleResponse(async () => await registerUser(payload))
-        response.status === 200 && this.props.isRegisterHandler()
+        response.status === 200 && this.props.isRegisterHandler(false)
         response.status === 500 && this.setState({ msg4: true })
     }
 

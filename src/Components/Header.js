@@ -1,7 +1,7 @@
 import React from 'react';
-import '../App.css'
+import '../App.css';
 
-const Header = () => {
+const Header = (props) => {
     return (
       <>
         <ul className="nav nav-tabs mb-3 nav-color" id="myTab" role="tablist" style={{ padding: '2rem 0 0 2rem', fontSize: '1.5rem' }}>
@@ -15,7 +15,7 @@ const Header = () => {
             <a className="nav-link" id="emotions-tab" data-toggle="tab" href="#emotions" role="tab" aria-controls="emotions" aria-selected="false">Emocje</a>
           </li>
           <li className="d-inline-flex p-2 ml-auto">
-            <button type="button" className="btn btn-danger">Wyloguj</button>
+            <button type="button" className="btn btn-danger" onClick={props.logoutHandler}>Wyloguj</button>
           </li>
         </ul>
       </>
