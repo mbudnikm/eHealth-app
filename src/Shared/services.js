@@ -12,7 +12,7 @@ export async function handleResponse(requestCallback) {
 
 export const registerUser = async (payload) => {
     const response = await axios({
-        method: 'post',
+        method: "post",
         url: baseURL,
         data: payload,
         headers: {

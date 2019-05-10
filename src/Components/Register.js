@@ -108,7 +108,7 @@ class Register extends Component {
                         </div>
                         { this.state.msg4 && 
                             <span className="mt-2 mx-auto" style={{color: "red"}}>
-                                Konto o podanej nazwie istnieje juz w bazie danych. Prosze wpisac inna nazwe uzytkownika
+                                Konto o podanej nazwie istnieje już w bazie danych. Proszę wpisać inną nazwę użytkownika
                             </span>
                         }
                         <button type="submit" className="btn btn-success btn-lg w-100">Załóż konto</button>

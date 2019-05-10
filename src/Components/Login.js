@@ -31,7 +31,7 @@ class Login extends Component {
                         <div className="col-xs-12 col-s-12 col-md-8 col-l-6 col-xl-6 mx-auto">
                             { this.props.registerMssg && 
                                 <h5 className="mt-2 mx-auto" style={{color: "green"}}>
-                                    Konto zostalo poprawnie utworzone
+                                    Konto zostało poprawnie utworzone
                                 </h5>
                             }
                             <h2 className="p-4">Logowanie</h2>
