@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { registerUser } from "../shared/services"
+import { handleResponse, registerUser } from "../Shared/services"
 
 class Register extends Component {
     constructor(props) {
@@ -9,38 +9,53 @@ class Register extends Component {
           login: "",
           password: "",
           repeatedPassword: "",
-          onChange: false,
-          passMessage: false,
-          loginMessage: false
+          msg1: false,
+          msg2: false,
+          msg3: false,
+          msg4: false
         };
     }
 
     handleChange = event => {
-        this.setState({
-          [event.target.id]: event.target.value,
-          onChange: true
-        });
+        this.setState({ [event.target.id]: event.target.value });
     }
 
-    handleSubmit = event => {
+    handleSubmit = async (event) => {
         event.preventDefault();
 
-        if(this.state.password !== this.state.repeatedPassword){
-            this.setState({ passMessage: true, loginMessage: true })
+        this.setState({ msg1: false, msg2: false, msg3: false})
+
+        if (this.state.login.replace(/\s+/g, '').length < 2 
+            && this.state.password.length < 8 
+            && this.state.password !== this.state.repeatedPassword) {
+            this.setState({ msg1: true, msg2: true, msg3: true })
+            return
+        } else if(this.state.password !== this.state.repeatedPassword 
+            && this.state.login.replace(/\s+/g, '').length < 2) {
+            this.setState({ msg1: true, msg3: true })
+            return
+        } else if (this.state.login.replace(/\s+/g, '').length < 2 
+            && this.state.password.length < 8) {
+            this.setState({ msg1: true, msg2: true })
             return
         } else if (this.state.login.replace(/\s+/g, '').length < 2) {
-            this.setState({ loginMessage: true, passMessage: false })
+            this.setState({ msg1: true })
             return
         } else if (this.state.password !== this.state.repeatedPassword) {
-            this.setState({ passMessage: true, loginMessage: false })
+            this.setState({ msg3: true })
             return
+        } else if (this.state.password.length < 8) {
+            this.setState({ msg2: true })
+            // return
         }
 
         const payload = {
             "name": this.state.login,
             "password": this.state.password
         }
-        registerUser(payload)
+        const response = await handleResponse(async () => await registerUser(payload))
+        response.status === 200 && this.props.isRegisterHandler()
+        response.status === 500 && this.setState({ msg4: true })
     }
 
     render() {
@@ -57,7 +72,7 @@ class Register extends Component {
                                 id="login" 
                                 onChange={this.handleChange}
                                 placeholder="Wpisz nazwę użytkownika..." />
-                            { this.state.loginMessage && 
+                            { this.state.msg1 && 
                                 <span className="mt-2 mx-auto" style={{color: "red"}}>
                                     Nazwa użytkownika musi składać się z co najmniej 2 znaków
                                 </span>
@@ -71,6 +86,11 @@ class Register extends Component {
                                 id="password" 
                                 onChange={this.handleChange}
                                 placeholder="Wpisz hasło użytkownika..." />
+                            { this.state.msg2 && 
+                                <span className="mt-2 mx-auto" style={{color: "red"}}>
+                                    Hasło musi zawierać minimum 8 znaków
+                                </span>
+                            }
                         </div>
                         <div className="form-group mb-4">
                             <label htmlFor="repeatedPassoword" className="float-left">Potwierdź hasło</label>
@@ -80,12 +100,17 @@ class Register extends Component {
                                 id="repeatedPassword" 
                                 onChange={this.handleChange}
                                 placeholder="Wpisz hasło użytkownika..." />
-                                { this.state.passMessage && 
+                                { this.state.msg3 && 
                                     <span className="mt-2 mx-auto" style={{color: "red"}}>
                                         Hasło i powtórzone hasło muszą być identyczne
                                     </span>
                                 }
                         </div>
+                        { this.state.msg4 && 
+                            <span className="mt-2 mx-auto" style={{color: "red"}}>
+                                Konto o podanej nazwie istnieje juz w bazie danych. Prosze wpisac inna nazwe uzytkownika
+                            </span>
+                        }
                         <button type="submit" className="btn btn-success btn-lg w-100">Załóż konto</button>
                     </form>
                 </div>

@@ -2,17 +2,24 @@ import axios from "axios";
 
 const baseURL = "http://176.107.133.21:8090/api/v1/users";
 
-export const registerUser = (payload) => {
-    axios({
+export async function handleResponse(requestCallback) {
+    try {
+        return await requestCallback();
+    } catch (error) {
+        return error.response.data
+    }
+}
+
+export const registerUser = async (payload) => {
+    const response = await axios({
         method: 'post',
         url: baseURL,
-        body: payload,
+        data: payload,
         headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": '*'
         }
-    }).then(response => console.log(response))
-    .catch(error => console.log(error));
+    })
+    return response
 }
 
 export const getUserDetails = (id) => {
