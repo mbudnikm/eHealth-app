@@ -30,8 +30,7 @@ class Login extends Component {
             "password": this.state.password
         }
         const response = await handleResponse(async () => await loginUser(payload))
-        response.status === 200 && this.props.userIdHandler(response.data.id)
-        console.log(response)
+        response.status === 200 && this.props.userHandler({...payload, id: response.data.id})
     }
 
     render() {

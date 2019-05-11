@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { handleResponse, registerUser } from "../Shared/services"
+import { handleResponse, registerUser } from "../Shared/services";
 
 class Register extends Component {
     constructor(props) {

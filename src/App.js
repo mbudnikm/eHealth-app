@@ -7,17 +7,22 @@ import Register from './Components/Register';
 class App extends Component {
   state = {
     isLogged: false,
-    isRegister: false,
+    isRegister: true,
     registerMssg: false,
-    userId: null
+    userId: null,
+    auth: null,
   }
 
   isRegisterHandler = (info) => {
     this.setState({ isRegister: info, registerMssg: !info })
   }
 
-  userIdHandler = (id) => {
-    this.setState({ userId: id, isLogged: true })
+  userHandler = (payload) => {
+    this.setState({ 
+      userId: payload.id, 
+      isLogged: true, 
+      auth: {username: payload.name, password: payload.password} 
+    })
   }
 
   logoutHandler = () => {
@@ -35,10 +40,11 @@ class App extends Component {
           <Login 
             registerMssg={this.state.registerMssg}
             isRegisterHandler={this.isRegisterHandler}
-            userIdHandler={this.userIdHandler} /> :
+            userHandler={this.userHandler} /> :
           <Main 
             userId={this.state.userId}
-            logoutHandler={this.logoutHandler}/>
+            logoutHandler={this.logoutHandler}
+            auth={this.state.auth} />
         )
         }
       </div>

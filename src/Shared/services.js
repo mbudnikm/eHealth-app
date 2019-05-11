@@ -35,16 +35,26 @@ export const loginUser = async (payload) => {
     return response
 }
 
-export const getUserDetails = (id) => {
-    axios({
-        method: 'get',
-        url: `baseURL/${id}`,
-    }).then(response => console.log(response));
+export const getPulse = async (payload) => {
+    const response = await axios({
+        method: "get",
+        url: `${baseURL}/${payload.userId}/pulses`,
+        auth: payload.auth,
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+    return response.data
 }
 
-export const deleteUser = (id) => {
-    axios({
-        method: 'delete',
-        url: `baseURL/${id}`,
-    }).then(response => console.log(response));
+export const getEmotions = async (payload) => {
+    const response = await axios({
+        method: "get",
+        url: `${baseURL}/${payload.userId}/emotions`,
+        auth: payload.auth,
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+    return response.data
 }

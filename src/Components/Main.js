@@ -6,7 +6,7 @@ const Main = (props) => {
     return (
         <>
             <Header logoutHandler={props.logoutHandler}/>, 
-            <Content />
+            <Content userId={props.userId} auth={props.auth} />
         </>
     )
 }
