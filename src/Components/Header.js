@@ -16,6 +16,7 @@ const Header = (props) => {
           </li>
           <li className="d-inline-flex p-2 ml-auto">
             <button type="button" className="btn btn-danger" onClick={props.logoutHandler}>Wyloguj</button>
+            {/* <button type="button" className="btn btn-outline-danger" onClick={props.logoutHandler}>Usuń konto</button> */}
           </li>
         </ul>
       </>

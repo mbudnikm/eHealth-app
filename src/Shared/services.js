@@ -58,6 +58,29 @@ export const getEmotions = async (payload) => {
     })
     return response.data
 }
+export const postPulseComment = async (payload) => {
+    const response = await axios({
+        method: "post",
+        url: `${baseURL}/${payload.id}/pulse/${payload.pulseId}/comments`,
+        auth: payload.auth,
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+    return response
+}
+
+export const postEmotionsComment = async (payload) => {
+    const response = await axios({
+        method: "post",
+        url: `${baseURL}/${payload.id}/emotions/${payload.emotionsId}/comments`,
+        auth: payload.auth,
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+    return response
+}
 
 export const deleteUser = async (payload) => {
     const response = await axios({
