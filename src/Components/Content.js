@@ -5,7 +5,7 @@ import Emotions from './Emotions'
 
 const Content = (props) => {
     return (
-        <div className="tab-content content-color" id="tabContent" style={{height: '100vh'}}>
+        <div className="tab-content content-color" id="tabContent" style={{height: 'auto'}}>
           <div className="tab-pane fade show active" id="instruction" role="tabpanel" aria-labelledby="instruction-tab">
             <Instruction />
           </div>

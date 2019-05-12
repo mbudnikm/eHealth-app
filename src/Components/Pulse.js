@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { handleResponse, getPulse } from "../Shared/services"
+import PulseMonthChart from './PulseMonthChart'
 
 class Pulse extends Component  {
     constructor(props) {
         super(props)
+
+        this.state = {
+            comment: null,
+        }
     }
     
     async componentDidMount () {
@@ -19,6 +24,7 @@ class Pulse extends Component  {
         return (
             <div>
                 <h1 style={{color: '#ED4C67'}}>Puls</h1>
+                <PulseMonthChart auth={this.props.auth} userId={this.props.userId} />
             </div>
         )
     }
