@@ -4,7 +4,7 @@ import { handleResponse, getPulse } from "../Shared/services"
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-class PulseMonthChart extends Component {
+class PulseChart extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -14,51 +14,46 @@ class PulseMonthChart extends Component {
 
   async componentDidMount() {
     const pulseMeasure = await handleResponse(async () => await getPulse(this.props.userInfo))
-    //var chart = this.chart;
-    pulseMeasure.length && this.setState({ pulseMeasure: pulseMeasure })
-    //chart.render();
+    pulseMeasure.length && this.setState({ pulseMeasure: pulseMeasure }, this.chart.render())
   };
 
   render() {
     const dataPoints = this.state.pulseMeasure.map(measurement => ({
       x: new Date(measurement.createdAt),
       y: measurement.pulse
-    }))
+    })).filter(el => el.x.toString().includes('May'))
+
 
     const options = {
       theme: "dark2",
       exportEnabled: false,
-      animationEnabled: false,
+      animationEnabled: true,
+      interactivityEnabled: true,
       title: {
         text: "Pomiary pulsu"
-      },
-      axisX: {
-        //valueFormatString: "YYYY"
       },
       axisY: {
         title: "Puls [bpm]",
         suffix: "bpm"
       },
+      axisX: {
+        xValueFormatString: "DD MM YYYY",
+      },
       data: [{
         type: "scatter",
-        //indexLabel: "{y[#index]}",
         xValueFormatString: "DD MM YYYY",
-        //yValueFromatSring: "bpm",
-        //toolTipContent:"<strong>{x}</strong></br> Max: {y[1]}<br/> Min: {y[0]}",
+        yValueFromatSring: "bpm",
         dataPoints: dataPoints
       }]
-
-
     }
 
     return (
-      <div>
-        { this.state.pulseMeasure.length ? <CanvasJSChart options={options}
-          onRef={ref => this.chart = ref}
-        /> : <h4>Brak pomiarów</h4>}
+      <div className="container">
+  
+          <CanvasJSChart options={options} onRef={ref => this.chart = ref} />
       </div>
     );
   }
 }
 
-export default PulseMonthChart
+export default PulseChart

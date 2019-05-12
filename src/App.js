@@ -64,11 +64,7 @@ class App extends Component {
                 userHandler={this.userHandler} />
             </>
           )}/>
-          {/* history.location.pathname.includes("/app") && <Main 
-          userInfo={userInfo}
-          logoutHandler={this.logoutHandler}/>*/}
         </Switch>
-
       </div>
     );
   }

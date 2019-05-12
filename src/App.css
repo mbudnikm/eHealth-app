@@ -10,6 +10,10 @@
   /* background: white */
 }
 
+.nav-link {
+  padding: 1rem;
+}
+
 h1 {
   font-weight: bold;
 }
@@ -17,4 +21,8 @@ h1 {
 ul {
   margin: auto;
   list-style: inside;
+}
+
+.pulse-chart{
+  width: 100%;
 }

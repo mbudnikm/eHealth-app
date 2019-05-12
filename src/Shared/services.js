@@ -38,7 +38,7 @@ export const loginUser = async (payload) => {
 export const getPulse = async (payload) => {
     const response = await axios({
         method: "get",
-        url: `${baseURL}/${payload.userId}/pulses?sort=date&direction=asc`,
+        url: `${baseURL}/${payload.userId}/pulses?size=200&direction=asc&sort=date`,
         auth: payload.auth,
         headers: {
             "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export const getPulse = async (payload) => {
 export const getEmotions = async (payload) => {
     const response = await axios({
         method: "get",
-        url: `${baseURL}/${payload.userId}/emotions?sort=date&direction=asc`,
+        url: `${baseURL}/${payload.userId}/emotions?size=200&direction=asc&sort=date`,
         auth: payload.auth,
         headers: {
             "Content-Type": "application/json",

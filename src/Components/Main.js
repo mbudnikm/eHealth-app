@@ -7,7 +7,7 @@ const Main = (props) => {
         <>
             <Header 
                 logoutHandler={props.logoutHandler} 
-                userInfo={props.userInfo} />, 
+                userInfo={props.userInfo} />
             <Content userInfo={props.userInfo} />
         </>
     )
