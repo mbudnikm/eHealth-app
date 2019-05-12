@@ -17,8 +17,7 @@ const Header = (props) => {
           </li>
           <li className="d-inline-flex p-2 ml-auto">
             <UserMenu 
-              userId={props.userId} 
-              auth={props.auth} 
+              userInfo={props.userInfo}
               logoutHandler={props.logoutHandler}/>
           </li>
         </ul>

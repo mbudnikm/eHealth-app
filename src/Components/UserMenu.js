@@ -2,10 +2,6 @@ import React from "react";
 import { handleResponse, deleteUser } from "../Shared/services"
 
 const UserMenu = (props) => {
-    const payload = {
-        userId: props.userId,
-        auth: props.auth
-    }
     return (
         <>
             <div className="dropdown dropleft">
@@ -57,8 +53,7 @@ const UserMenu = (props) => {
                         className="btn btn-danger"
                         data-dismiss="modal" 
                         onClick={ async () => {
-                            const response = await handleResponse(async () => await deleteUser(payload))
-                            console.log(response)
+                            await handleResponse(async () => await deleteUser(props.userInfo))
                             props.logoutHandler()
                         }}>Usuń konto</button>
                 </div>

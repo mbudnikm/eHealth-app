@@ -31,6 +31,11 @@ class App extends Component {
 
 
   render() {
+    const userInfo = {
+      userId: this.state.userId,
+      auth: this.state.auth
+    }
+    
     return (
       <div className="App">
         { 
@@ -42,9 +47,8 @@ class App extends Component {
             isRegisterHandler={this.isRegisterHandler}
             userHandler={this.userHandler} /> :
           <Main 
-            userId={this.state.userId}
-            logoutHandler={this.logoutHandler}
-            auth={this.state.auth} />
+            userInfo={userInfo}
+            logoutHandler={this.logoutHandler}/>
         )
         }
       </div>

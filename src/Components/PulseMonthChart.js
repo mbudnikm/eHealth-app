@@ -13,11 +13,7 @@ class PulseMonthChart extends Component {
   }
 
   async componentDidMount() {
-    const payload = {
-      userId: this.props.userId,
-      auth: this.props.auth
-    }
-    const pulseMeasure = await handleResponse(async () => await getPulse(payload))
+    const pulseMeasure = await handleResponse(async () => await getPulse(this.props.userInfo))
     //var chart = this.chart;
     pulseMeasure.length && this.setState({ pulseMeasure: pulseMeasure })
     //chart.render();

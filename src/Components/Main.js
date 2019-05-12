@@ -7,11 +7,8 @@ const Main = (props) => {
         <>
             <Header 
                 logoutHandler={props.logoutHandler} 
-                userId={props.userId}
-                auth={props.auth}/>, 
-            <Content 
-                userId={props.userId} 
-                auth={props.auth} />
+                userInfo={props.userInfo} />, 
+            <Content userInfo={props.userInfo} />
         </>
     )
 }

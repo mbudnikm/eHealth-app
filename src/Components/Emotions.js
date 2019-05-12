@@ -7,11 +7,7 @@ class Emotions extends Component  {
     }
     
     async componentDidMount () {
-        const payload = {
-            userId: this.props.userId,
-            auth: this.props.auth
-        }
-        const response = await handleResponse(async () => await getEmotions(payload))
+        const response = await handleResponse(async () => await getEmotions(this.props.userInfo))
         console.log(response)
     }
 

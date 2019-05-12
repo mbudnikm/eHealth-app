@@ -12,11 +12,7 @@ class Pulse extends Component  {
     }
     
     async componentDidMount () {
-        const payload = {
-            userId: this.props.userId,
-            auth: this.props.auth
-        }
-        const response = await handleResponse(async () => await getPulse(payload))
+        const response = await handleResponse(async () => await getPulse(this.props.userInfo))
         console.log(response)
     }
 
@@ -24,7 +20,7 @@ class Pulse extends Component  {
         return (
             <div>
                 <h1 style={{color: '#ED4C67'}}>Puls</h1>
-                <PulseMonthChart auth={this.props.auth} userId={this.props.userId} />
+                <PulseMonthChart userInfo={this.props.userInfo} />
             </div>
         )
     }

@@ -6,7 +6,7 @@ export async function handleResponse(requestCallback) {
     try {
         return await requestCallback();
     } catch (error) {
-        return error.response.data
+        return error.response
     }
 }
 
@@ -83,6 +83,7 @@ export const postEmotionsComment = async (payload) => {
 }
 
 export const deleteUser = async (payload) => {
+    console.log(payload)
     const response = await axios({
         method: "delete",
         url: `${baseURL}/${payload.userId}`,

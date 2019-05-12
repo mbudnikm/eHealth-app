@@ -10,10 +10,10 @@ const Content = (props) => {
             <Instruction />
           </div>
           <div className="tab-pane fade" id="pulse" role="tabpanel" aria-labelledby="pulse-tab">
-            <Pulse userId={props.userId} auth={props.auth} />
+            <Pulse userInfo={props.userInfo} />
           </div>
           <div className="tab-pane fade" id="emotions" role="tabpanel" aria-labelledby="emotions-tab">
-            <Emotions userId={props.userId} auth={props.auth} />
+            <Emotions userInfo={props.userInfo} />
           </div>
         </div>
     )
