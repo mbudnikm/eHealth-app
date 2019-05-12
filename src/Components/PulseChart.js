@@ -14,7 +14,7 @@ class PulseChart extends Component {
 
   async componentDidMount() {
     const pulseMeasure = await handleResponse(async () => await getPulse(this.props.userInfo))
-    pulseMeasure.length && this.setState({ pulseMeasure: pulseMeasure }, this.chart.render())
+    pulseMeasure.length && this.setState({ pulseMeasure: pulseMeasure })
   };
 
   render() {
