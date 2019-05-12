@@ -26,7 +26,7 @@ class App extends Component {
   }
 
   logoutHandler = () => {
-    this.setState({ userId: null, isLogged: false })
+    this.setState({ userId: null, isLogged: false, registerMssg: false })
   }
 
 

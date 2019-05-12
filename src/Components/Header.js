@@ -1,6 +1,6 @@
 import React from 'react';
 import '../App.css';
-import User from './User'
+import UserMenu from './UserMenu'
 
 const Header = (props) => {
     return (
@@ -16,7 +16,10 @@ const Header = (props) => {
             <a className="nav-link" id="emotions-tab" data-toggle="tab" href="#emotions" role="tab" aria-controls="emotions" aria-selected="false">Emocje</a>
           </li>
           <li className="d-inline-flex p-2 ml-auto">
-            <button type="button" className="btn btn-danger" onClick={props.logoutHandler}>Wyloguj</button>
+            <UserMenu 
+              userId={props.userId} 
+              auth={props.auth} 
+              logoutHandler={props.logoutHandler}/>
           </li>
         </ul>
       </>

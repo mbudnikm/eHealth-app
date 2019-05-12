@@ -5,8 +5,13 @@ import Content from "./Content"
 const Main = (props) => {
     return (
         <>
-            <Header logoutHandler={props.logoutHandler}/>, 
-            <Content userId={props.userId} auth={props.auth} />
+            <Header 
+                logoutHandler={props.logoutHandler} 
+                userId={props.userId}
+                auth={props.auth}/>, 
+            <Content 
+                userId={props.userId} 
+                auth={props.auth} />
         </>
     )
 }

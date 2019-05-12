@@ -85,7 +85,7 @@ export const postEmotionsComment = async (payload) => {
 export const deleteUser = async (payload) => {
     const response = await axios({
         method: "delete",
-        url: `${baseURL}/${payload.id}`,
+        url: `${baseURL}/${payload.userId}`,
         auth: payload.auth,
         headers: {
             "Content-Type": "application/json",
