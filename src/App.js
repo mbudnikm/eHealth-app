@@ -3,30 +3,35 @@ import './App.css';
 import Main from "./Components/Main";
 import Login from "./Components/Login"
 import Register from './Components/Register';
+import { Route, Switch } from "react-router-dom"
+import { history } from "./index"
 
 class App extends Component {
   state = {
-    isLogged: false,
-    isRegister: false,
     registerMssg: false,
     userId: null,
     auth: null,
   }
 
-  isRegisterHandler = (info) => {
-    this.setState({ isRegister: info, registerMssg: !info })
+  registerMssgHandler = () => {
+    this.setState({ registerMssg: !this.state.registerMssg })
+    history.push("/")
   }
 
   userHandler = (payload) => {
     this.setState({ 
       userId: payload.id, 
-      isLogged: true, 
-      auth: {username: payload.name, password: payload.password} 
+      auth: { 
+        username: payload.name, 
+        password: payload.password
+      }
     })
+    history.push('/app')
   }
 
   logoutHandler = () => {
-    this.setState({ userId: null, isLogged: false, registerMssg: false })
+    this.setState({ userId: null, registerMssg: false })
+    history.push("/")
   }
 
 
@@ -35,22 +40,35 @@ class App extends Component {
       userId: this.state.userId,
       auth: this.state.auth
     }
-    
+
     return (
       <div className="App">
-        { 
-        (!this.state.isLogged && this.state.isRegister) ? 
-          <Register isRegisterHandler={this.isRegisterHandler}/> : 
-        (!this.state.isLogged && !this.state.isRegister ? 
-          <Login 
-            registerMssg={this.state.registerMssg}
-            isRegisterHandler={this.isRegisterHandler}
-            userHandler={this.userHandler} /> :
-          <Main 
-            userInfo={userInfo}
-            logoutHandler={this.logoutHandler}/>
-        )
-        }
+        <Switch>
+          <Route exact path="/app" render={() => (
+            <>
+              <Main 
+              userInfo={userInfo}
+              logoutHandler={this.logoutHandler}/>
+            </>
+          )} />
+          <Route path="/register" render={() => (
+            <>
+              <Register registerMssgHandler={this.registerMssgHandler}/>
+            </>
+          )}/>
+          <Route path="/" render={() => (
+            <>
+              <Login 
+                registerMssg={this.state.registerMssg}
+                isRegisterHandler={this.isRegisterHandler}
+                userHandler={this.userHandler} />
+            </>
+          )}/>
+          {/* history.location.pathname.includes("/app") && <Main 
+          userInfo={userInfo}
+          logoutHandler={this.logoutHandler}/>*/}
+        </Switch>
+
       </div>
     );
   }

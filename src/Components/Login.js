@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { handleResponse, loginUser } from "../Shared/services"
+import { history } from "../index"
 
 class Login extends Component {
     constructor(props) {
@@ -19,7 +20,7 @@ class Login extends Component {
 
     changeisRegisterState = (e) => {
         e.stopPropagation();
-        this.props.isRegisterHandler(true)
+        this.props.isRegisterHandler()
     }
 
     handleSubmit = async (event) => {
@@ -37,7 +38,7 @@ class Login extends Component {
         return (
                 <div className="container">
                     <div className="d-flex justify-content-end p-4">
-                        <span onClick={this.changeisRegisterState} data-id="1">
+                        <span onClick={() => history.push("/register")} data-id="1">
                             <a href="/register">Nie masz jeszcze konta? Zarejestruj się</a>
                         </span>
                     </div>
