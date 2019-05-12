@@ -29,9 +29,7 @@ class PulseChart extends Component {
       exportEnabled: false,
       animationEnabled: true,
       interactivityEnabled: true,
-      title: {
-        text: "Pomiary pulsu"
-      },
+      width: '700',
       axisY: {
         title: "Puls [bpm]",
         suffix: "bpm"
@@ -48,9 +46,8 @@ class PulseChart extends Component {
     }
 
     return (
-      <div className="container">
-  
-          <CanvasJSChart options={options} onRef={ref => this.chart = ref} />
+      <div className="container mx-auto" style={{width: '700px'}}>
+      { this.state.pulseMeasure.length ? <CanvasJSChart options={options} /> : <h4>Brak pomiarów</h4>}
       </div>
     );
   }
