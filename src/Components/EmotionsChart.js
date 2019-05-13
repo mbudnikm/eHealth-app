@@ -56,7 +56,7 @@ class EmotionsChart extends Component {
     const options = {
       animationEnabled: true,
       theme: "light1",
-      dataPointWidth: 3,
+      dataPointWidth: 7,
       width: '700',
       axisX: {
         interval: 1,

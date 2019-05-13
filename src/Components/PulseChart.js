@@ -39,7 +39,7 @@ class PulseChart extends Component {
       },
       data: [{
         type: "scatter",
-        xValueFormatString: "DD MM YYYY",
+        xValueFormatString: "DD MM YYYY HH:HH",
         yValueFromatSring: "bpm",
         dataPoints: dataPoints
       }]
