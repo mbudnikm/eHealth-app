@@ -23,3 +23,10 @@ ul {
 .pulse-chart{
   width: 100%;
 }
+
+.user-name {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-left: 0.7rem;
+  margin-right: 0.7rem;
+}
