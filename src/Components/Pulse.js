@@ -23,10 +23,8 @@ class Pulse extends Component  {
         return (
             <>
                 <h1 style={{color: '#ED4C67'}}>Puls</h1>
-                <div className="pulse-chart">
                 <div className="container">
                     <PulseChart userInfo={this.props.userInfo} />
-                </div>
                 </div>
             </>
         )
