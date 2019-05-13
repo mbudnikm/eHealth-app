@@ -25,7 +25,7 @@ class PulseChart extends Component {
 
 
     const options = {
-      theme: "dark2",
+      theme: "light1",
       exportEnabled: false,
       animationEnabled: true,
       interactivityEnabled: true,
