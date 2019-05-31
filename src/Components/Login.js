@@ -38,8 +38,8 @@ class Login extends Component {
         return (
                 <div className="container">
                     <div className="d-flex justify-content-end p-4">
-                        <span onClick={() => history.push("/register")} data-id="1">
-                            <a href="/register">Nie masz jeszcze konta? Zarejestruj się</a>
+                        <span onClick={() => history.push("/register")} data-id="1" style={{cursor: 'pointer'}} className="text-primary">
+                            Nie masz jeszcze konta? Zarejestruj się
                         </span>
                     </div>
                     <div className="container h-100">

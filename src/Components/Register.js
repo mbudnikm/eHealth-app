@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { handleResponse, registerUser } from "../Shared/services";
+import { history } from "../index"
 
 class Register extends Component {
     constructor(props) {
@@ -60,6 +61,12 @@ class Register extends Component {
 
     render() {
         return (
+            <div className="container">
+            <div className="d-flex justify-content-end p-4">
+                <span onClick={() => history.push("/")} data-id="1" style={{cursor: 'pointer'}} className="text-primary">
+                    Zaloguj się
+                </span>
+            </div>
             <div className="container h-100 pt-5">
                 <div className="col-xs-12 col-s-12 col-md-8 col-l-6 col-xl-6 mx-auto">
                     <h2 className="p-4">Rejestracja</h2>
@@ -114,6 +121,7 @@ class Register extends Component {
                         <button type="submit" className="btn btn-success btn-lg w-100">Załóż konto</button>
                     </form>
                 </div>
+            </div>
             </div>
         );
     }

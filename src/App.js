@@ -13,6 +13,10 @@ class App extends Component {
     auth: null,
   }
 
+  componentWillMount() {
+    history.push("/")
+  }
+
   registerMssgHandler = () => {
     this.setState({ registerMssg: !this.state.registerMssg })
     history.push("/")
