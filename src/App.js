@@ -14,12 +14,12 @@ class App extends Component {
   }
 
   componentWillMount() {
-    history.push("/")
+    this.logoutHandler()
   }
 
   registerMssgHandler = () => {
     this.setState({ registerMssg: !this.state.registerMssg })
-    history.push("/")
+    history.push("/login")
   }
 
   userHandler = (payload) => {
@@ -35,7 +35,7 @@ class App extends Component {
 
   logoutHandler = () => {
     this.setState({ userId: null, registerMssg: false })
-    history.push("/")
+    history.push("/login")
   }
 
 
@@ -60,7 +60,7 @@ class App extends Component {
               <Register registerMssgHandler={this.registerMssgHandler}/>
             </>
           )}/>
-          <Route path="/" render={() => (
+          <Route path="/login" render={() => (
             <>
               <Login 
                 registerMssg={this.state.registerMssg}

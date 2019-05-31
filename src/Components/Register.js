@@ -63,7 +63,7 @@ class Register extends Component {
         return (
             <div className="container">
             <div className="d-flex justify-content-end p-4">
-                <span onClick={() => history.push("/")} data-id="1" style={{cursor: 'pointer'}} className="text-primary">
+                <span onClick={() => history.push("/login")} data-id="1" style={{cursor: 'pointer'}} className="text-primary">
                     Zaloguj się
                 </span>
             </div>
