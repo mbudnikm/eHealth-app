@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import CanvasJSReact from '../assets/canvasjs.react';
 import { handleResponse, getPulse } from "../Shared/services"
+import moment from 'moment'
+
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -15,9 +17,19 @@ class PulseChart extends Component {
   async componentDidMount() {
     const pulseMeasure = await handleResponse(async () => await getPulse(this.props.userInfo))
     pulseMeasure.length && this.setState({ pulseMeasure: pulseMeasure })
+    console.log(pulseMeasure)
   };
 
+  datesGroupByComponent = (dates, token) => {
+    return dates.reduce(function(val, obj) {
+      let comp = moment(obj['createdAt'], 'YYYY-MM-DD HH:mm Z').format(token);
+      (val[comp] = val[comp] || []).push(obj);
+      return val;
+    }, {});
+  }
+
   render() {
+    console.log('W', this.datesGroupByComponent(this.state.pulseMeasure, 'w'))
     const dataPoints = this.state.pulseMeasure.map(measurement => ({
       x: new Date(measurement.createdAt),
       y: measurement.pulse
