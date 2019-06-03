@@ -27,7 +27,7 @@ class PulseChart extends Component {
         groupedByWeek: datesGroupByComponent(pulseMeasure, 'W'),
         weeksArray: Object.keys(datesGroupByComponent(pulseMeasure, 'W')),
         groupedArray: Object.entries(datesGroupByComponent(pulseMeasure, 'W'))
-    }, console.log(this.state))
+    }, this.setMeasurments)
   }
 
   setMeasurments = () => {
@@ -81,7 +81,7 @@ class PulseChart extends Component {
 
     return (
       <>
-        <div className={"container mt-2 mb-2 d-flex flex-row " + (this.state.week < currentWeek && "justify-content-between")} style={{width: '700px'}}>
+        <div className={"container mt-4 mb-2 d-flex flex-row " + (this.state.week < currentWeek && "justify-content-between")} style={{width: '700px'}}>
           <button className={"btn btn-outline-primary " + (this.state.week >= currentWeek && "mr-5")} onClick={this.previuosWeek}>
             <i className="fa fa-angle-left" /> Poprzedni tydzień
           </button>

@@ -15,7 +15,8 @@ class EmotionsChart extends Component {
       measurements: [],
       groupedByWeek: {},
       weeksArray: [],
-      groupedArray: []
+      groupedArray: [],
+      singleMeasure: null
     }
   }
 
@@ -39,11 +40,11 @@ class EmotionsChart extends Component {
   }
 
   previuosWeek = () => {
-    this.setState({week: this.state.week - 1}, this.setMeasurments)
+    this.setState({week: this.state.week - 1, singleMeasure: null}, this.setMeasurments)
   }
 
   nextWeek = () => {
-    this.setState({week: this.state.week + 1}, this.setMeasurments)
+    this.setState({week: this.state.week + 1, singleMeasure: null}, this.setMeasurments)
   }
 
   render() {
@@ -82,6 +83,23 @@ class EmotionsChart extends Component {
       y: 1 - result.disgust - result.happiness - result.sadness - result.fear - result.anger - result.surprise
     }))
 
+    const showDayChart = (e) => {
+      const measureDate = moment(e.dataPoint.x).format('YYYY-MM-DD HH:mm:ss')
+      const singleMeasure = this.state.measurements.filter((measure) => 
+        moment(measure.createdAt).format('YYYY-MM-DD HH:mm:ss') === measureDate)
+      const i = singleMeasure[0]
+      const singleMeasureDataPoints =  [
+        { y: i.fear, label: "Strach" },
+        { y: i.anger, label: "Złość" },
+        { y: i.sadness, label: "Smutek" },
+        { y: i.happiness, label: "Szczęście" },
+        { y: i.disgust, label: "Zniesmaczenie" },
+        { y: i.surprise, label: "Zaskoczenie" },
+        { y: 1-i.anger-i.fear-i.sadness-i.happiness-i.disgust-i.surprise, label: "Obojętność" },
+      ]
+      singleMeasure && this.setState({ singleMeasure: singleMeasureDataPoints })
+    }
+
     const options = {
       animationEnabled: true,
       theme: "light1",
@@ -104,66 +122,90 @@ class EmotionsChart extends Component {
       },
 	    data: [{
         type: "stackedColumn100",
+        click: showDayChart,
         name: "Złość",
         showInLegend: true,
         xValueFormatString: "DD MM YYYY HH:HH",
-        //yValueFormatString: "#,##0\"%\"",
+        yValueFormatString: "###0.00\"%\"",
         dataPoints: dataPointsAnger
       }, 
       {
         type: "stackedColumn100",
+        click: showDayChart,
         name: "Strach",
         showInLegend: true,
         xValueFormatString: "DD MM YYYY",
-        //yValueFormatString: "#,##0\"%\"",
+        yValueFormatString: "###0.00\"%\"",
         dataPoints: dataPointsFear
       }, 
       {
         type: "stackedColumn100",
+        click: showDayChart,
         name: "Radość",
         showInLegend: true,
         xValueFormatString: "DD MM YYYY",
-        //yValueFormatString: "#,##0\"%\"",
+        yValueFormatString: "###0.00\"%\"",
         dataPoints: dataPointsHappiness
       },
       {
         type: "stackedColumn100",
+        click: showDayChart,
         name: "Smutek",
         showInLegend: true,
         xValueFormatString: "DD MM YYYY",
-        //yValueFormatString: "#,##0\"%\"",
+        yValueFormatString: "###0.00\"%\"",
         dataPoints: dataPointsSadness
       },
       {
         type: "stackedColumn100",
+        click: showDayChart,
         name: "Zaskoczenie",
         showInLegend: true,
         xValueFormatString: "DD MM YYYY",
-        //yValueFormatString: "#,##0\"%\"",
+        yValueFormatString: "###0.00\"%\"",
         dataPoints: dataPointsSurprise
       },
       {
         type: "stackedColumn100",
+        click: showDayChart,
         name: "Zniesmaczenie",
         showInLegend: true,
         xValueFormatString: "DD MM YYYY",
-        //yValueFormatString: "#,##0\"%\"",
+        yValueFormatString: "###0.00\"%\"",
         dataPoints: dataPointsDisgust
       },
       {
         type: "stackedColumn100",
+        click: showDayChart,
         name: "Obojętność",
         showInLegend: true,
         xValueFormatString: "DD MM YYYY",
-        //ValueFormatString: "#,##0\"%\"",
+        yValueFormatString: "###0.00\"%\"",
         dataPoints: dataPointsIndifference
       }
     ]
   }
 
+  const optionsPieChart = {
+    theme: "light2",
+    exportEnabled: false,
+    animationEnabled: false,
+    title: {
+      text: " "
+    },
+    data: [{
+      type: "pie",
+      indexLabelFontSize: 18,
+      indexLabel: "{label} - {y}",
+      yValueFormatString: "###0.00\"%\"",
+      dataPoints: this.state.singleMeasure
+    }]
+  }
+
   const weekStartDate = moment().day("Monday").week(this.state.week).startOf('isoWeek').format("DD.MM")
   const weekEndDate = moment().day("Monday").week(this.state.week).endOf('isoWeek').format("DD.MM")
   const currentWeek = parseInt(moment().format('W'))
+
   return (
     <>
       <div className={"container mt-4 mb-2 d-flex flex-row " + (this.state.week < currentWeek && "justify-content-between")} style={{width: '700px'}}>
@@ -176,9 +218,13 @@ class EmotionsChart extends Component {
         </button>}
       </div>
       <div className="container mx-auto" style={{width: '700px'}}>
-      { this.state.measurements.length ? 
-        <CanvasJSChart options={options} /> 
-        : <h4>Brak pomiarów</h4>}
+      { this.state.measurements.length && this.state.singleMeasure ? 
+          <>
+          <CanvasJSChart options={options} /> 
+          <CanvasJSChart options={optionsPieChart} /> 
+          </>
+          : (this.state.measurements.length ? <CanvasJSChart options={options} /> 
+            : <h4>Brak pomiarów</h4>)}
       </div>
     </>
   );
