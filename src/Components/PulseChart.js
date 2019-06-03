@@ -65,11 +65,11 @@ class PulseChart extends Component {
         suffix: "bpm"
       },
       axisX: {
-        xValueFormatString: "DD MM YYYY",
+        valueFormatString: "DD.MM.YYYY"
       },
       data: [{
         type: "scatter",
-        xValueFormatString: "DD MM YYYY HH:HH",
+        xValueFormatString: "DD.MM.YYYY HH:HH",
         yValueFromatSring: "bpm",
         dataPoints: dataPoints
       }]
@@ -85,7 +85,7 @@ class PulseChart extends Component {
           <button className={"btn btn-outline-primary " + (this.state.week >= currentWeek && "mr-5")} onClick={this.previuosWeek}>
             <i className="fa fa-angle-left" /> Poprzedni tydzień
           </button>
-          <h2 className={" "+ (this.state.week >= currentWeek && "ml-5")}>{weekStartDate} - {weekEndDate}</h2>
+          <h2 className={this.state.week >= currentWeek && "ml-5"}>{weekStartDate} - {weekEndDate}</h2>
           { this.state.week < currentWeek && <button className="btn btn-outline-primary" onClick={this.nextWeek}>
                 Następny tydzień <i className="fa fa-angle-right" />
           </button>}

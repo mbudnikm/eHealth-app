@@ -107,7 +107,7 @@ class EmotionsChart extends Component {
       width: '700',
       axisX: {
         interval: 1,
-        valueFormatString: "DD MM YYYY"
+        valueFormatString: "DD.MM.YYYY"
       },
       axisY: {
         //suffix: "%"
@@ -125,7 +125,7 @@ class EmotionsChart extends Component {
         click: showDayChart,
         name: "Złość",
         showInLegend: true,
-        xValueFormatString: "DD MM YYYY HH:HH",
+        xValueFormatString: "DD.MM.YYYY HH:HH",
         yValueFormatString: "###0.00\"%\"",
         dataPoints: dataPointsAnger
       }, 
@@ -134,7 +134,7 @@ class EmotionsChart extends Component {
         click: showDayChart,
         name: "Strach",
         showInLegend: true,
-        xValueFormatString: "DD MM YYYY",
+        xValueFormatString: "DD.MM.YYYY",
         yValueFormatString: "###0.00\"%\"",
         dataPoints: dataPointsFear
       }, 
@@ -143,7 +143,7 @@ class EmotionsChart extends Component {
         click: showDayChart,
         name: "Radość",
         showInLegend: true,
-        xValueFormatString: "DD MM YYYY",
+        xValueFormatString: "DD.MM.YYYY",
         yValueFormatString: "###0.00\"%\"",
         dataPoints: dataPointsHappiness
       },
@@ -152,7 +152,7 @@ class EmotionsChart extends Component {
         click: showDayChart,
         name: "Smutek",
         showInLegend: true,
-        xValueFormatString: "DD MM YYYY",
+        xValueFormatString: "DD.MM.YYYY",
         yValueFormatString: "###0.00\"%\"",
         dataPoints: dataPointsSadness
       },
@@ -161,7 +161,7 @@ class EmotionsChart extends Component {
         click: showDayChart,
         name: "Zaskoczenie",
         showInLegend: true,
-        xValueFormatString: "DD MM YYYY",
+        xValueFormatString: "DD.MM.YYYY",
         yValueFormatString: "###0.00\"%\"",
         dataPoints: dataPointsSurprise
       },
@@ -170,7 +170,7 @@ class EmotionsChart extends Component {
         click: showDayChart,
         name: "Zniesmaczenie",
         showInLegend: true,
-        xValueFormatString: "DD MM YYYY",
+        xValueFormatString: "DD.MM.YYYY",
         yValueFormatString: "###0.00\"%\"",
         dataPoints: dataPointsDisgust
       },
@@ -179,7 +179,7 @@ class EmotionsChart extends Component {
         click: showDayChart,
         name: "Obojętność",
         showInLegend: true,
-        xValueFormatString: "DD MM YYYY",
+        xValueFormatString: "DD.MM.YYYY",
         yValueFormatString: "###0.00\"%\"",
         dataPoints: dataPointsIndifference
       }
@@ -212,7 +212,7 @@ class EmotionsChart extends Component {
         <button className={"btn btn-outline-primary " + (this.state.week >= currentWeek && "mr-5")} onClick={this.previuosWeek}>
           <i className="fa fa-angle-left" /> Poprzedni tydzień
         </button>
-        <h2 className={" "+ (this.state.week >= currentWeek && "ml-5")}>{weekStartDate} - {weekEndDate}</h2>
+        <h2 className={this.state.week >= currentWeek && "ml-5"}>{weekStartDate} - {weekEndDate}</h2>
         { this.state.week < currentWeek && <button className="btn btn-outline-primary" onClick={this.nextWeek}>
               Następny tydzień <i className="fa fa-angle-right" />
         </button>}
