@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import CanvasJSReact from '../assets/canvasjs.react';
 import { handleResponse, getPulse } from "../Shared/services"
-import moment from 'moment'
+import { datesGroupByComponent } from "../Shared/dateHelper"
+import moment from "moment"
 
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -11,7 +12,6 @@ class PulseChart extends Component {
     super(props)
     this.state = {
       pulseMeasure: [],
-      currentWeek: parseInt(moment().format('W')),
       week: parseInt(moment().format('W')),
       measurements: [],
       groupedByWeek: {},
@@ -24,18 +24,10 @@ class PulseChart extends Component {
     const pulseMeasure = await handleResponse(async () => await getPulse(this.props.userInfo))
     this.setState({ 
         pulseMeasure: pulseMeasure, 
-        groupedByWeek: this.datesGroupByComponent(pulseMeasure, 'W'),
-        weeksArray: Object.keys(this.datesGroupByComponent(pulseMeasure, 'W')),
-        groupedArray: Object.entries(this.datesGroupByComponent(pulseMeasure, 'W'))
-    }, this.setMeasurments)
-  }
-
-  datesGroupByComponent = (dates, token) => {
-    return dates.reduce(function(val, obj) {
-      let comp = moment(obj['createdAt'], 'YYYY-MM-DD HH:mm Z').format(token);
-      (val[comp] = val[comp] || []).push(obj);
-      return val;
-    }, {});
+        groupedByWeek: datesGroupByComponent(pulseMeasure, 'W'),
+        weeksArray: Object.keys(datesGroupByComponent(pulseMeasure, 'W')),
+        groupedArray: Object.entries(datesGroupByComponent(pulseMeasure, 'W'))
+    }, console.log(this.state))
   }
 
   setMeasurments = () => {
@@ -65,7 +57,7 @@ class PulseChart extends Component {
     const options = {
       theme: "light1",
       exportEnabled: false,
-      animationEnabled: true,
+      animationEnabled: false,
       interactivityEnabled: true,
       width: '700',
       axisY: {
@@ -85,15 +77,16 @@ class PulseChart extends Component {
 
     const weekStartDate = moment().day("Monday").week(this.state.week).startOf('isoWeek').format("DD.MM")
     const weekEndDate = moment().day("Monday").week(this.state.week).endOf('isoWeek').format("DD.MM")
+    const currentWeek = parseInt(moment().format('W'))
 
     return (
       <>
-        <div className="container mt-2 mb-2 d-flex flex-row justify-content-around" style={{width: '700px'}}>
-          <button className="btn btn-outline-primary" onClick={this.previuosWeek}>
+        <div className={"container mt-2 mb-2 d-flex flex-row " + (this.state.week < currentWeek && "justify-content-between")} style={{width: '700px'}}>
+          <button className={"btn btn-outline-primary " + (this.state.week >= currentWeek && "mr-5")} onClick={this.previuosWeek}>
             <i className="fa fa-angle-left" /> Poprzedni tydzień
           </button>
-          <h2>{weekStartDate} - {weekEndDate}</h2>
-          { this.state.week < this.state.currentWeek && <button className="btn btn-outline-primary" onClick={this.nextWeek}>
+          <h2 className={" "+ (this.state.week >= currentWeek && "ml-5")}>{weekStartDate} - {weekEndDate}</h2>
+          { this.state.week < currentWeek && <button className="btn btn-outline-primary" onClick={this.nextWeek}>
                 Następny tydzień <i className="fa fa-angle-right" />
           </button>}
         </div>
