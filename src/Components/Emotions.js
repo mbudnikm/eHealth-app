@@ -263,7 +263,7 @@ class Emotions extends Component {
               <hr />
               <textarea 
                 className="col-12 m-2"
-                value={this.state.comment}
+                value={this.state.comment || ""}
                 onChange={e => this.setState({comment: e.target.value})}
                 style={{height: "150px", outline: "none", resize: "none"}}/>
               <button type="button" className="btn btn-primary p-1" onClick={postComment}>Dodaj komentarz</button>
