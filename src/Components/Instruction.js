@@ -4,7 +4,7 @@ const Instruction = () => {
     return (
         <div>
             <h1 style={{color: '#124191'}}>Instrukcja</h1>
-            <ul className="col-7">
+            <ul className="col-10">
                 <li className="m-2">Zainstaluj program do analizy dostępny pod <a href="/">tym linkiem</a></li>
                 <li className="m-2">Uruchom program do analizy upewniając się najpierw, czy do komputera podłączona jest kamera</li>
                 <li className="m-2">Na ekranie powinien wyświetlić się podgląd z kamery. Program jest już gotowy do analizy.</li>

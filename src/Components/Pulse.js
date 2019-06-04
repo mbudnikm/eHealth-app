@@ -1,16 +1,103 @@
-import React from 'react';
-import PulseChart from "./PulseChart"
-import "../App.css"
+import React, { Component } from 'react';
+import CanvasJSReact from '../assets/canvasjs.react';
+import { handleResponse, getPulse } from "../Shared/services"
+import { datesGroupByComponent } from "../Shared/dateHelper"
+import moment from "moment"
 
-const Pulse = (props) => {
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
+class Pulse extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      pulseMeasure: [],
+      week: parseInt(moment().format('W')),
+      measurements: [],
+      groupedByWeek: {},
+      weeksArray: [],
+      groupedArray: []
+    }
+  }
+
+  async componentWillMount() {
+    const pulseMeasure = await handleResponse(async () => await getPulse(this.props.userInfo))
+    this.setState({ 
+        pulseMeasure: pulseMeasure, 
+        groupedByWeek: datesGroupByComponent(pulseMeasure, 'W'),
+        weeksArray: Object.keys(datesGroupByComponent(pulseMeasure, 'W')),
+        groupedArray: Object.entries(datesGroupByComponent(pulseMeasure, 'W'))
+    }, this.setMeasurments)
+  }
+
+  setMeasurments = () => {
+    if (this.state.weeksArray.includes(this.state.week.toString())){
+      const idx = this.state.weeksArray.indexOf(this.state.week.toString())
+      this.setState({ measurements: this.state.groupedArray[idx][1]})
+    } else {
+      this.setState({measurements: []})
+    }
+  }
+
+  previuosWeek = () => {
+    this.setState({week: this.state.week - 1}, this.setMeasurments)
+  }
+
+  nextWeek = () => {
+    this.setState({week: this.state.week + 1}, this.setMeasurments)
+  }
+
+  render() {
+    const dataPoints = this.state.measurements.map(measurement => ({
+      x: new Date(measurement.createdAt),
+      y: measurement.pulse
+    }))
+
+
+    const options = {
+      theme: "light1",
+      exportEnabled: false,
+      animationEnabled: false,
+      interactivityEnabled: true,
+      width: '700',
+      axisY: {
+        title: "Puls [bpm]",
+        suffix: "bpm"
+      },
+      axisX: {
+        valueFormatString: "DD.MM.YYYY"
+      },
+      data: [{
+        type: "scatter",
+        xValueFormatString: "DD.MM.YYYY HH:HH",
+        yValueFromatSring: "bpm",
+        dataPoints: dataPoints
+      }]
+    }
+
+    const weekStartDate = moment().day("Monday").week(this.state.week).startOf('isoWeek').format("DD.MM")
+    const weekEndDate = moment().day("Monday").week(this.state.week).endOf('isoWeek').format("DD.MM")
+    const currentWeek = parseInt(moment().format('W'))
+
     return (
-        <>
-            <h1 style={{color: '#ED4C67'}}>Puls</h1>
-            <div className="container">
-                <PulseChart userInfo={props.userInfo}  />
-             </div>
-        </>
-    )
+      <div>
+        <h1 style={{color: '#ED4C67'}}>Puls</h1>
+        <div className={"container mt-4 mb-2 d-flex flex-row col-11 " + (this.state.week < currentWeek ? "justify-content-between" : undefined)}>
+          <button className={"btn btn-outline-primary " + (this.state.week >= currentWeek ? "mr-5" : undefined)} onClick={this.previuosWeek}>
+            <i className="fa fa-angle-left" /> Poprzedni tydzień
+          </button>
+          <h2 className={this.state.week >= currentWeek ? "ml-5" : undefined}>{weekStartDate} - {weekEndDate}</h2>
+          { this.state.week < currentWeek && <button className="btn btn-outline-primary" onClick={this.nextWeek}>
+                Następny tydzień <i className="fa fa-angle-right" />
+          </button>}
+        </div>
+        <div className="container mx-auto">
+          { this.state.measurements.length ? 
+            <div className="d-inline-block col-9"><CanvasJSChart options={options} /></div>
+          : <h4 className="p-5">Brak pomiarów</h4>}
+        </div>
+      </div>
+    );
+  }
 }
 
-export default Pulse;
+export default Pulse
