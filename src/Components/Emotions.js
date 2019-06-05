@@ -129,10 +129,11 @@ class Emotions extends Component {
           -response.data.sadness-response.data.happiness
           -response.data.disgust-response.data.surprise, label: "Obojętność" },
       ]
+
       response.status === 200 && this.setState({ 
         comment: undefined,
         singleMeasure: response.data, 
-        singleMeasureDataPoints: singleMeasureDataPoints 
+        singleMeasureDataPoints: singleMeasureDataPoints,
       })
     }
 
@@ -157,7 +158,7 @@ class Emotions extends Component {
         click: showSingleMeasure,
         name: "Złość",
         showInLegend: true,
-        xValueFormatString: "DD.MM.YYYY HH:HH",
+        xValueFormatString: "DD.MM.YYYY HH:mm",
         yValueFormatString: "###0.00\"%\"",
         dataPoints: dataPointsAnger
       }, 
@@ -245,7 +246,7 @@ class Emotions extends Component {
         <button className={"btn btn-outline-primary " + (this.state.week >= currentWeek ? "mr-5" : undefined)} onClick={this.previuosWeek}>
           <i className="fa fa-angle-left" /> Poprzedni tydzień
         </button>
-        <h2 className={this.state.week >= currentWeek ? "ml-5" : undefined}>{weekStartDate} - {weekEndDate}</h2>
+        <h2 style={this.state.week >= currentWeek ? {marginLeft: "10rem"} : undefined}>{weekStartDate} - {weekEndDate}</h2>
         { this.state.week < currentWeek && <button className="btn btn-outline-primary" onClick={this.nextWeek}>
               Następny tydzień <i className="fa fa-angle-right" />
         </button>}
