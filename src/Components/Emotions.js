@@ -85,28 +85,30 @@ class Emotions extends Component {
       y: 1 - result.disgust - result.happiness - result.sadness - result.fear - result.anger - result.surprise
     }))
 
-    const showDayChart = (e) => {
+    const showSingleMeasure = (e) => {
       const measureDate = moment(e.dataPoint.x).format('YYYY-MM-DD HH:mm:ss')
-      const singleMeasure = this.state.measurements.filter((measure) => 
+      const singleMeasure = this.state.measurements.find((measure) => 
         moment(measure.createdAt).format('YYYY-MM-DD HH:mm:ss') === measureDate)
-      const i = singleMeasure[0]
       const singleMeasureDataPoints =  [
-        { y: i.fear, label: "Strach" },
-        { y: i.anger, label: "Złość" },
-        { y: i.sadness, label: "Smutek" },
-        { y: i.happiness, label: "Szczęście" },
-        { y: i.disgust, label: "Zniesmaczenie" },
-        { y: i.surprise, label: "Zaskoczenie" },
-        { y: 1-i.anger-i.fear-i.sadness-i.happiness-i.disgust-i.surprise, label: "Obojętność" },
+        { y: singleMeasure.fear, label: "Strach" },
+        { y: singleMeasure.anger, label: "Złość" },
+        { y: singleMeasure.sadness, label: "Smutek" },
+        { y: singleMeasure.happiness, label: "Szczęście" },
+        { y: singleMeasure.disgust, label: "Zniesmaczenie" },
+        { y: singleMeasure.surprise, label: "Zaskoczenie" },
+        { y: 1-singleMeasure.anger-singleMeasure.fear
+          -singleMeasure.sadness-singleMeasure.happiness
+          -singleMeasure.disgust-singleMeasure.surprise, label: "Obojętność" },
       ]
       singleMeasure && this.setState({ 
         comment: undefined,
-        singleMeasure: singleMeasure[0], 
+        singleMeasure: singleMeasure, 
         singleMeasureDataPoints: singleMeasureDataPoints 
       })
     }
 
-    const postComment = async() => {
+    const postComment = async(e) => {
+      e.preventDefault()
       const payload = {
         emotionId: this.state.singleMeasure.id,
         userId: this.props.userInfo.userId,
@@ -127,7 +129,7 @@ class Emotions extends Component {
           -response.data.sadness-response.data.happiness
           -response.data.disgust-response.data.surprise, label: "Obojętność" },
       ]
-      this.setState({ 
+      response.status === 200 && this.setState({ 
         comment: undefined,
         singleMeasure: response.data, 
         singleMeasureDataPoints: singleMeasureDataPoints 
@@ -138,7 +140,6 @@ class Emotions extends Component {
       animationEnabled: true,
       theme: "light1",
       dataPointWidth: 7,
-      width: '700',
       axisX: {
         interval: 1,
         valueFormatString: "DD.MM.YYYY"
@@ -153,7 +154,7 @@ class Emotions extends Component {
       },
 	    data: [{
         type: "stackedColumn100",
-        click: showDayChart,
+        click: showSingleMeasure,
         name: "Złość",
         showInLegend: true,
         xValueFormatString: "DD.MM.YYYY HH:HH",
@@ -162,7 +163,7 @@ class Emotions extends Component {
       }, 
       {
         type: "stackedColumn100",
-        click: showDayChart,
+        click: showSingleMeasure,
         name: "Strach",
         showInLegend: true,
         xValueFormatString: "DD.MM.YYYY",
@@ -171,7 +172,7 @@ class Emotions extends Component {
       }, 
       {
         type: "stackedColumn100",
-        click: showDayChart,
+        click: showSingleMeasure,
         name: "Radość",
         showInLegend: true,
         xValueFormatString: "DD.MM.YYYY",
@@ -180,7 +181,7 @@ class Emotions extends Component {
       },
       {
         type: "stackedColumn100",
-        click: showDayChart,
+        click: showSingleMeasure,
         name: "Smutek",
         showInLegend: true,
         xValueFormatString: "DD.MM.YYYY",
@@ -189,7 +190,7 @@ class Emotions extends Component {
       },
       {
         type: "stackedColumn100",
-        click: showDayChart,
+        click: showSingleMeasure,
         name: "Zaskoczenie",
         showInLegend: true,
         xValueFormatString: "DD.MM.YYYY",
@@ -198,7 +199,7 @@ class Emotions extends Component {
       },
       {
         type: "stackedColumn100",
-        click: showDayChart,
+        click: showSingleMeasure,
         name: "Zniesmaczenie",
         showInLegend: true,
         xValueFormatString: "DD.MM.YYYY",
@@ -207,7 +208,7 @@ class Emotions extends Component {
       },
       {
         type: "stackedColumn100",
-        click: showDayChart,
+        click: showSingleMeasure,
         name: "Obojętność",
         showInLegend: true,
         xValueFormatString: "DD.MM.YYYY",
@@ -252,9 +253,9 @@ class Emotions extends Component {
       <div className="mx-auto">
       { this.state.measurements.length && this.state.singleMeasure ? 
           <>
-            <div className="d-inline-block col-9"><CanvasJSChart options={options} /></div>
-            <div className="d-inline-block col-8"><CanvasJSChart options={optionsPieChart} /></div>
-            <div className="d-inline-block col-4 align-top">
+            <div className="d-inline-block col-10"><CanvasJSChart options={options} /></div>
+            <div className="d-inline-block col-xs-10 col-sm-10 col-md-10 col-lg-7 col-xl-6"><CanvasJSChart options={optionsPieChart} /></div>
+            <div className="d-inline-block col-xs-10 col-sm-10 col-md-10 col-lg-3 col-xl-4 h-100 align-top">
               <h4>Komentarz</h4>
               <hr />
               { this.state.singleMeasure.comment ? 
@@ -265,8 +266,8 @@ class Emotions extends Component {
                 className="col-12 m-2"
                 value={this.state.comment || ""}
                 onChange={e => this.setState({comment: e.target.value})}
-                style={{height: "150px", outline: "none", resize: "none"}}/>
-              <button type="button" className="btn btn-primary p-1" onClick={postComment}>Dodaj komentarz</button>
+                style={{height: "13rem", outline: "none", resize: "none"}}/>
+              <button type="button" className="btn btn-primary p-2 mb-2" onClick={postComment}>Dodaj komentarz</button>
             </div>
             </>
           : (this.state.measurements.length 

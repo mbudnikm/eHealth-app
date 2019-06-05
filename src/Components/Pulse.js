@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CanvasJSReact from '../assets/canvasjs.react';
-import { handleResponse, getPulse } from "../Shared/services"
+import { handleResponse, getPulse, postPulseComment } from "../Shared/services"
 import { datesGroupByComponent } from "../Shared/dateHelper"
 import moment from "moment"
 
@@ -15,7 +15,9 @@ class Pulse extends Component {
       measurements: [],
       groupedByWeek: {},
       weeksArray: [],
-      groupedArray: []
+      groupedArray: [],
+      dayMeasureDataPoints: null,
+      comment: null
     }
   }
 
@@ -52,13 +54,46 @@ class Pulse extends Component {
       y: measurement.pulse
     }))
 
+    const showDayMeasurement = (e) => {
+      const measureDate = moment(e.dataPoint.x).format('YYYY-MM-DD')
+      const dayMeasurement = this.state.measurements.filter((measure) => 
+        moment(measure.createdAt).format('YYYY-MM-DD') === measureDate)
+      const dayMeasurementDataPoints = dayMeasurement.map(measurement => ({
+        x: new Date(measurement.createdAt),
+        y: measurement.pulse
+      }))
+      dayMeasurement && this.setState({ dayMeasurementDataPoints: dayMeasurementDataPoints })
+    }
+
+    const showComment = (e) => {
+      const measureDate = moment(e.dataPoint.x).format('YYYY-MM-DD HH:mm:ss')
+      const singleMeasure = this.state.measurements.find((measure) => 
+        moment(measure.createdAt).format('YYYY-MM-DD HH:mm:ss') === measureDate)
+      this.setState({ singleMeasure: singleMeasure })
+    }
+
+    const postComment = async(e) => {
+      e.preventDefault()
+      const payload = {
+        pulseId: this.state.singleMeasure.id,
+        userId: this.props.userInfo.userId,
+        auth: this.props.userInfo.auth,
+        comment: {
+          comment: this.state.comment
+        }
+      }
+      const response = await handleResponse(async () => await postPulseComment(payload))
+      response.status === 200 && this.setState({ 
+        comment: undefined,
+        singleMeasure: response.data, 
+      })
+    }
 
     const options = {
       theme: "light1",
       exportEnabled: false,
       animationEnabled: false,
       interactivityEnabled: true,
-      width: '700',
       axisY: {
         title: "Puls [bpm]",
         suffix: "bpm"
@@ -68,9 +103,10 @@ class Pulse extends Component {
       },
       data: [{
         type: "scatter",
+        click: showComment,
         xValueFormatString: "DD.MM.YYYY HH:HH",
         yValueFromatSring: "bpm",
-        dataPoints: dataPoints
+        dataPoints: dataPoints,
       }]
     }
 
@@ -90,9 +126,26 @@ class Pulse extends Component {
                 Następny tydzień <i className="fa fa-angle-right" />
           </button>}
         </div>
-        <div className="container mx-auto">
+        <div className="container mx-auto row justify-content-center">
           { this.state.measurements.length ? 
-            <div className="d-inline-block col-9"><CanvasJSChart options={options} /></div>
+            <>
+              <div className="col-10"><CanvasJSChart options={options} /></div>
+              { this.state.singleMeasure &&  
+                <div className="col-8 mt-4">
+                  <h4>Komentarz</h4>
+                  <hr />
+                  { this.state.singleMeasure.comment ? 
+                    <span>{this.state.singleMeasure.comment}</span> : 
+                    <h5>Brak komentarza do pomiaru</h5> }
+                  <hr />
+                  <textarea 
+                  className="col-10 m-2"
+                  value={this.state.comment || ""}
+                  onChange={e => this.setState({comment: e.target.value})}
+                  style={{height: "13rem", outline: "none", resize: "none"}}/>
+                  <button type="button" className="btn btn-primary p-2 mb-2" onClick={postComment}>Dodaj komentarz</button> 
+                </div> }
+            </>
           : <h4 className="p-5">Brak pomiarów</h4>}
         </div>
       </div>

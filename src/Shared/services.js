@@ -61,7 +61,7 @@ export const getEmotions = async (payload) => {
 export const postPulseComment = async (payload) => {
     const response = await axios({
         method: "post",
-        url: `${baseURL}/${payload.userId}/pulse/${payload.pulseId}/comments`,
+        url: `${baseURL}/${payload.userId}/pulses/${payload.pulseId}/comments`,
         auth: payload.auth,
         data: payload.comment,
         headers: {
