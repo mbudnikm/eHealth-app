@@ -47,7 +47,7 @@ class Register extends Component {
             return
         } else if (this.state.password.length < 8) {
             this.setState({ msg2: true })
-            // return
+            return
         }
 
         const payload = {
@@ -67,7 +67,7 @@ class Register extends Component {
                     Zaloguj się
                 </span>
             </div>
-            <div className="container h-100 pt-5">
+            <div className="container h-100">
                 <div className="col-xs-12 col-s-12 col-md-8 col-l-6 col-xl-6 mx-auto">
                     <h2 className="p-4">Rejestracja</h2>
                     <form onSubmit={this.handleSubmit}>
