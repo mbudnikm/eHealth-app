@@ -118,23 +118,18 @@ class Emotions extends Component {
         }
       }
       const response = await handleResponse(async () => await postEmotionsComment(payload))
-      const singleMeasureDataPoints =  [
-        { y: response.data.fear, label: "Strach" },
-        { y: response.data.anger, label: "Złość" },
-        { y: response.data.sadness, label: "Smutek" },
-        { y: response.data.happiness, label: "Szczęście" },
-        { y: response.data.disgust, label: "Zniesmaczenie" },
-        { y: response.data.surprise, label: "Zaskoczenie" },
-        { y: 1-response.data.anger-response.data.fear
-          -response.data.sadness-response.data.happiness
-          -response.data.disgust-response.data.surprise, label: "Obojętność" },
-      ]
 
+      const idx = this.state.emotionsArray.findIndex(measure => measure.id === response.data.id)
+      let emotionsArray = this.state.emotionsArray
+      emotionsArray[idx] = response.data
       response.status === 200 && this.setState({ 
         comment: undefined,
-        singleMeasure: response.data, 
-        singleMeasureDataPoints: singleMeasureDataPoints,
-      })
+        singleMeasure: response.data,
+        emotionsArray: emotionsArray,
+        groupedByWeek: datesGroupByComponent(emotionsArray, 'W'),
+        weeksArray: Object.keys(datesGroupByComponent(emotionsArray, 'W')),
+        groupedArray: Object.entries(datesGroupByComponent(emotionsArray, 'W'))
+      }, this.setMeasurments) 
     }
 
     const options = {
@@ -246,7 +241,7 @@ class Emotions extends Component {
         <button className={"btn btn-outline-primary " + (this.state.week >= currentWeek ? "mr-5" : undefined)} onClick={this.previuosWeek}>
           <i className="fa fa-angle-left" /> Poprzedni tydzień
         </button>
-        <h2 style={this.state.week >= currentWeek ? {marginLeft: "10rem"} : undefined}>{weekStartDate} - {weekEndDate}</h2>
+        <h2 style={this.state.week >= currentWeek ? {marginLeft: "20rem"} : undefined}>{weekStartDate} - {weekEndDate}</h2>
         { this.state.week < currentWeek && <button className="btn btn-outline-primary" onClick={this.nextWeek}>
               Następny tydzień <i className="fa fa-angle-right" />
         </button>}
@@ -272,7 +267,7 @@ class Emotions extends Component {
             </div>
             </>
           : (this.state.measurements.length 
-            ? <div className="d-inline-block col-9"><CanvasJSChart options={options} /></div> 
+            ? <div className="d-inline-block col-10"><CanvasJSChart options={options} /></div> 
             : <h4>Brak pomiarów</h4>)}
       </div>
     </div>

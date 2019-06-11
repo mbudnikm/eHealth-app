@@ -83,10 +83,17 @@ class Pulse extends Component {
         }
       }
       const response = await handleResponse(async () => await postPulseComment(payload))
+      const idx = this.state.pulseMeasure.findIndex(measure => measure.id === response.data.id)
+      let pulseMeasure = this.state.pulseMeasure
+      pulseMeasure[idx] = response.data
       response.status === 200 && this.setState({ 
         comment: undefined,
-        singleMeasure: response.data, 
-      })
+        singleMeasure: response.data,
+        pulseMeasure: pulseMeasure,
+        groupedByWeek: datesGroupByComponent(pulseMeasure, 'W'),
+        weeksArray: Object.keys(datesGroupByComponent(pulseMeasure, 'W')),
+        groupedArray: Object.entries(datesGroupByComponent(pulseMeasure, 'W'))
+      }, this.setMeasurments) 
     }
 
     const options = {
@@ -121,7 +128,7 @@ class Pulse extends Component {
           <button className={"btn btn-outline-primary " + (this.state.week >= currentWeek ? "mr-5" : undefined)} onClick={this.previuosWeek}>
             <i className="fa fa-angle-left" /> Poprzedni tydzień
           </button>
-          <h2 style={this.state.week >= currentWeek ? {marginLeft: "10rem"} : undefined}>{weekStartDate} - {weekEndDate}</h2>
+          <h2 style={this.state.week >= currentWeek ? {marginLeft: "20rem"} : undefined}>{weekStartDate} - {weekEndDate}</h2>
           { this.state.week < currentWeek && <button className="btn btn-outline-primary" onClick={this.nextWeek}>
                 Następny tydzień <i className="fa fa-angle-right" />
           </button>}
